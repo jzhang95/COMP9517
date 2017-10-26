@@ -1,6 +1,9 @@
 import os
 import sys
 import subprocess
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from bell2014.input import IntrinsicInput
 from bell2014.params import IntrinsicParameters
 from bell2014.solver import IntrinsicSolver
@@ -26,6 +29,7 @@ s_name = base + "-S.png"
 
 in_img = IntrinsicInput.from_file(os.path.join(INPUT_DIR, in_name))
 params = IntrinsicParameters()
+params.logging = True
 solver = IntrinsicSolver(in_img, params)
 reflect, shading, decomp = solver.solve()
 
@@ -38,7 +42,7 @@ proc_intrinsics = subprocess.Popen( [os.path.join(OMVG_BIN, "openMVG_main_SfMIni
                                      "-i", INPUT_DIR,
                                      "-o", MATCHES_DIR,
                                      "-d", CAMERA_PARAMS] )
-proc_intrisics.wait()
+proc_intrinsics.wait()
 
 print("Computing features")
 proc_features = subprocess.Popen( [os.path.join(OMVG_BIN, "openMVG_main_ComputeFeatures"),
